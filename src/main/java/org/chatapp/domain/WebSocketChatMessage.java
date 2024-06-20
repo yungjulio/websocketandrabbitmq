@@ -5,6 +5,8 @@ public class WebSocketChatMessage {
     private String content;
     private String sender;
 
+    private String whisperReceiver;
+
     public String getType() {
         return type;
     }
@@ -27,5 +29,13 @@ public class WebSocketChatMessage {
 
     public void setSender(String sender) {
         this.sender = sender;
+    }
+
+    public String getWhisperReceiver() {
+        return whisperReceiver;
+    }
+
+    public void setWhisperReceiver(String whisperReceiver) {
+        this.whisperReceiver = whisperReceiver;
     }
 }
