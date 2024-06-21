@@ -23,6 +23,7 @@ function connect(event) {
 
 function connectionSuccess() {
     stompClient.subscribe('/topic/javainuse', onMessageReceived);
+    stompClient.subscribe('/topic/whisper-' + name, onMessageReceived);
 
     stompClient.send("/app/chat.newUser", {}, JSON.stringify({
         sender : name,
@@ -35,14 +36,45 @@ function sendMessage(event) {
     var messageContent = document.querySelector('#chatMessage').value.trim();
 
     if (messageContent && stompClient) {
-        var chatMessage = {
-            sender : name,
-            content : document.querySelector('#chatMessage').value,
-            type : 'CHAT'
-        };
+        if(messageContent.startsWith('/whisper')) {
+            // \/whisper (?<username>[a-zA-Z0-9]*) (?<message>.*)
+            const { username, message } = /\/whisper (?<username>[a-zA-Z0-9]*) (?<message>.*)/.exec(
+                messageContent,
+            ).groups;
+            console.log('username: ' + username);
+            console.log('message: ' + message);
 
-        stompClient.send("/app/chat.sendMessage", {}, JSON
-            .stringify(chatMessage));
+            var whisperMessage = {
+                sender : name,
+                content : message,
+                type : 'WHISPER',
+                whisperReceiver : username
+            };
+
+            stompClient.send('/app/chat.whisperMessage', {}, JSON
+                .stringify(whisperMessage));
+
+            var messageElement = document.createElement('li');
+            messageElement.classList.add('event-data');
+            var textElement = document.createElement('p');
+            var messageText = document.createTextNode('You whispered to '
+                + whisperMessage.whisperReceiver + ': ' + message);
+            textElement.appendChild(messageText);
+            messageElement.appendChild(textElement);
+            document.querySelector('#messageList').appendChild(messageElement);
+            document.querySelector('#messageList').scrollTop = document
+                .querySelector('#messageList').scrollHeight;
+        }
+        else {
+            var chatMessage = {
+                sender : name,
+                content : document.querySelector('#chatMessage').value,
+                type : 'CHAT'
+            };
+
+            stompClient.send("/app/chat.sendMessage", {}, JSON
+                .stringify(chatMessage));
+        }
         document.querySelector('#chatMessage').value = '';
     }
     event.preventDefault();
@@ -59,6 +91,9 @@ function onMessageReceived(payload) {
     } else if (message.type === 'Leave') {
         messageElement.classList.add('event-data');
         message.content = message.sender + ' has left the chat';
+    } else if (message.type === 'WHISPER') {
+        messageElement.classList.add('event-data');
+        message.content = message.sender + ' whispered to you: ' + message.content;
     } else {
         messageElement.classList.add('message-data');
 
