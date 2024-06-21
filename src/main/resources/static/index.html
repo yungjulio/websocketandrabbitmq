@@ -3,28 +3,22 @@
 <head>
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>JavaInUse Chat Application | JavaInUse</title>
+    <title>Rabbit Chat</title>
     <link rel="stylesheet" href="/css/style.css" />
-    <link
-            href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
-            rel="stylesheet" id="bootstrap-css">
-    <script
-            src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 
 <div id="welcome-page">
     <div class="welcome-page-container">
-        <h1 class="title">Welcome - To join the chat group enter your
-            name</h1>
+        <h3 class="title">Enter your
+            name</h3>
         <form id="welcomeForm" name="welcomeForm">
             <div class="form-group">
                 <input type="text" id="name" placeholder="name"
-                       class="form-control" />
+                       class="form-control" required autocomplete="off" />
             </div>
             <div class="form-group">
-                <button type="submit" onclass="accent username-submit">Lets
-                    Begin</button>
+                <button id="btn-enter-chat" type="submit" class="secondary">ENTER CHAT</button>
             </div>
         </form>
     </div>
@@ -34,18 +28,18 @@
 <div id="dialogue-page" class="hidden">
     <div class="dialogue-container">
         <div class="dialogue-header">
-            <h2>JavaInUse Chat Application</h2>
+            <h2>Rabbit Chat <img src="/img/rabbitmq-logo.svg" alt="rabbitmq logo" id="rabbitmq-logo"></h2>
         </div>
         <ul id="messageList">
 
         </ul>
-        <form id="dialogueForm" name="dialogueForm" nameForm="dialogueForm">
+        <form id="dialogueForm" name="dialogueForm">
             <div class="form-group">
-                <div class="input-group clearfix">
+                <div class="input-group">
                     <input type="text" id="chatMessage"
                            placeholder="Enter a message...." autocomplete="off"
                            class="form-control" />
-                    <button type="submit" class="glyphicon glyphicon-share-alt">Send</button>
+                    <button type="submit" class="secondary">Send</button>
                 </div>
             </div>
         </form>
