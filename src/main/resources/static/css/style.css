@@ -1,3 +1,17 @@
+:root {
+    --primary: #012340;
+    --primary-darker: #011B37;
+    --secondary: #025939;
+    --secondary-darker: #024D2D;
+    --tertiary: #027333;
+    --accent: #04d939;
+    --radius: 25px;
+}
+
+* {
+    font-family: "Orbitron", sans-serif;
+}
+
 {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -10,14 +24,16 @@ html, body {
 }
 
 body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 0;
     padding: 0;
     font-weight: 400;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: var(--primary) !important;
     font-size: 1rem;
     line-height: 1.58;
-    color: #333;
-    background-color: #f4f4f4;
+    color: white;
     height: 100%;
 }
 
@@ -57,79 +73,106 @@ button {
     line-height: 100%;
     white-space: nowrap;
     vertical-align: middle;
-    padding: 0.6rem 1rem;
-    border-radius: 2px;
-    transition: all 0.2s ease-in-out;
+    margin-top: 1em;
+    padding: .5rem 1rem;
+    border-radius: var(--radius);
     cursor: pointer;
-    min-height: 38px;
 }
 
-button.default {
-    background-color: #e8e8e8;
-    color: #333;
+button.secondary {
+    background-color: var(--secondary);
+    color: #fff;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+    &:hover {
+        background-color: var(--accent);
+        color: var(--primary);
+    }
 }
 
 button.primary {
-    background-color: #128ff2;
+    background-color: var(--primary);
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
     color: #fff;
 }
 
 button.accent {
-    background-color: #ff4743;
+    background-color: var(--accent);
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
     color: #fff;
 }
 
-#welcome-page {
-    text-align: center;
+.welcome-page-container, .dialogue-container {
+    border: 2px outset var(--secondary);
+    background-color: var(--primary-darker);
+    max-width: 1200px;
+    display: block;
+    border-radius: var(--radius);
+    position: relative;
+    padding: 2rem 4rem;
+    & .form-group {
+        position: relative;
+        &:has(input[type=text]):before {
+            content: '>';
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            transform: translateY(-50%);
+            color: white;
+            display: inline-block;
+        }
+        &:has(button[type=submit]) {
+            display: flex;
+            justify-content: end;
+        }
+        & input[type=text] {
+            background-color: transparent;
+            border: none;
+            color: white;
+        }
+        & .input-group {
+            display: flex;
+            width: 100%;
+            & input[type=text] {
+                flex-grow: 1;
+            }
+        }
+    }
 }
 
-.welcome-page-container {
-    background-color: grey;
-    width: 100%;
-    max-width: 500px;
-    display: inline-block;
-    margin-top: 42px;
-    vertical-align: middle;
-    position: relative;
-    padding: 35px 55px 35px;
-    min-height: 250px;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    margin-top: -160px;
+#rabbitmq-logo {
+    height: 24px;
 }
 
 #dialogue-page {
     position: relative;
-    height: 100%;
+    height: 600px;
+    width: 1200px;
 }
 
 .dialogue-container {
-    background-color: green;
     margin: 10px 0;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 1200px;
     box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
-    margin-top: 30px;
-    height: calc(100% - 60px);
-    max-height: 600px;
+    height: 90%;
     position: relative;
 }
 
 #dialogue-page ul {
     list-style-type: none;
-    background-color: #FFF;
+    background-color: var(--primary-darker);
     margin: 0;
     overflow: auto;
     overflow-y: scroll;
     padding: 0 20px 0px 20px;
     height: calc(100% - 150px);
+    overflow-x: hidden;
+    scrollbar-color: var(--accent) var(--primary);
+    scrollbar-base-color: var(--accent);
+    scrollbar-shadow-color: var(--secondary);
+    scrollbar-darkshadow-color: var(--secondary-darker);
+    scrollbar-highlight-color: white;
+    scrollbar-track-color: #128ff2;
+
 }
 
 #dialogue-page #dialogueForm {
@@ -138,23 +181,35 @@ button.accent {
 
 #dialogue-page ul li {
     line-height: 1.5rem;
-    padding: 10px 20px;
-    margin: 0;
-    border-bottom: 1px solid #f4f4f4;
+    border-bottom: 1px solid var(--primary);
+    padding: 1em 0;
 }
 
-#dialogue-page ul li p {
-    margin: 0;
+@keyframes appear-upwards {
+    0% { transform: translateY(100px); opacity: 0 }
+    100% { transform: translateY(0); opacity: 1 }
 }
+
+@keyframes appear-to-left {
+    0% { transform: translateX(3000px); opacity: 0 }
+    100% { transform: translateX(0); opacity: 1 }
+}
+
+@keyframes appear-to-right {
+    0% { transform: translateX(-500px); opacity: 0 }
+    100% { transform: translateX(0); opacity: 1 }
+}
+
 
 #dialogue-page .event-data {
     width: 100%;
     text-align: center;
     clear: both;
+    animation: 500ms appear-to-left;
 }
 
 #dialogue-page .event-data p {
-    color: #777;
+    color: var(--secondary);
     font-size: 14px;
     word-wrap: break-word;
 }
@@ -162,6 +217,7 @@ button.accent {
 #dialogue-page .message-data {
     padding-left: 68px;
     position: relative;
+    animation: 200ms appear-to-right;
 }
 
 #dialogue-page .message-data i {
@@ -174,7 +230,8 @@ button.accent {
     vertical-align: middle;
     font-size: 18px;
     line-height: 42px;
-    color: #fff;
+    background-color: var(--accent);
+    color: var(--primary);
     text-align: center;
     border-radius: 50%;
     font-style: normal;
@@ -182,44 +239,21 @@ button.accent {
 }
 
 #dialogue-page .message-data span {
-    color: #333;
+    color: var(--accent);
+    font-size: 1em;
     font-weight: 600;
 }
 
 #dialogue-page .message-data p {
-    color: #43464b;
+    color: white;
+    margin-block: 0;
+    font-size: .8em;
+    font-weight: 300;
 }
 
-#dialogueForm .input-group input {
-    border: 0;
-    padding: 10px;
-    background: whitesmoke;
-    float: left;
-    width: calc(100% - 85px);
-}
-
-#dialogueForm .input-group button {
-    float: left;
-    width: 80px;
-    height: 38px;
-    margin-left: 5px;
-}
-
-.dialogue-header {
-    text-align: center;
-    padding: 15px;
-    border-bottom: 1px solid #ececec;
-}
-
-.dialogue-header h2 {
-    margin: 0;
-    font-weight: 500;
-}
 
 @media screen and (max-width: 730px) {
     .dialogue-container {
-        margin-left: 10px;
-        margin-right: 10px;
-        margin-top: 10px;
+
     }
 }
