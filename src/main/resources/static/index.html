@@ -15,7 +15,9 @@
         <form id="welcomeForm" name="welcomeForm">
             <div class="form-group">
                 <input type="text" id="name" placeholder="name"
-                       class="form-control" required autocomplete="off" />
+                       class="form-control" required autocomplete="off" required pattern="\w*"
+                       oninvalid="this.setCustomValidity('Name may only use the following characters: a-zA-Z0-9_')"
+                        oninput="this.setCustomValidity('')"/>
             </div>
             <div class="form-group">
                 <button id="btn-enter-chat" type="submit" class="secondary">ENTER CHAT</button>
