@@ -18,14 +18,14 @@ public class WebSocketChatController {
     private SimpMessageSendingOperations messagingTemplate;
 
     @MessageMapping("/chat.sendMessage")
-    @SendTo("/topic/javainuse")
+    @SendTo("/topic/chat")
     public WebSocketChatMessage sendMessage(@Payload WebSocketChatMessage webSocketChatMessage) {
         System.out.println("CHAT");
         return webSocketChatMessage;
     }
 
     @MessageMapping("/chat.newUser")
-    @SendTo("/topic/javainuse")
+    @SendTo("/topic/chat")
     public WebSocketChatMessage newUser(@Payload WebSocketChatMessage webSocketChatMessage,
                                         SimpMessageHeaderAccessor headerAccessor) {
         headerAccessor.getSessionAttributes().put("username", webSocketChatMessage.getSender());

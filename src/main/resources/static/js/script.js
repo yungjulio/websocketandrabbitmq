@@ -22,7 +22,7 @@ function connect(event) {
 }
 
 function connectionSuccess() {
-    stompClient.subscribe('/topic/javainuse', onMessageReceived);
+    stompClient.subscribe('/topic/chat', onMessageReceived);
     stompClient.subscribe('/topic/whisper-' + name, onMessageReceived);
 
     stompClient.send("/app/chat.newUser", {}, JSON.stringify({
@@ -38,7 +38,7 @@ function sendMessage(event) {
     if (messageContent && stompClient) {
         if(messageContent.startsWith('/whisper')) {
             // \/whisper (?<username>[a-zA-Z0-9]*) (?<message>.*)
-            const { username, message } = /\/whisper (?<username>[a-zA-Z0-9]*) (?<message>.*)/.exec(
+            const { username, message } = /\/whisper (?<username>\w*) (?<message>.*)/.exec(
                 messageContent,
             ).groups;
             console.log('username: ' + username);
